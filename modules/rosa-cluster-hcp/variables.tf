@@ -32,6 +32,8 @@ variable "aws_billing_account_id" {
   description = "The AWS billing account identifier where all resources are billed. If no information is provided, the data will be retrieved from the currently connected account."
 }
 
+# NOTE: this does not make sense, an AWS account doesn't have an ARN
+#       it only have an "ID" and can have an "Alias"
 variable "aws_account_arn" {
   type        = string
   default     = null
