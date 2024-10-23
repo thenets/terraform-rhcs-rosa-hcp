@@ -22,7 +22,7 @@ locals {
     operator_role_prefix = var.operator_role_prefix,
     oidc_config_id       = var.oidc_config_id
   }
-  aws_account_arn = var.aws_account_arn == null ? data.aws_caller_identity.current[0].account_id : var.aws_account_arn
+  aws_account_arn = var.aws_account_arn == null ? data.aws_caller_identity.current[0].arn : var.aws_account_arn
   create_admin_user = var.create_admin_user
   admin_credentials = var.admin_credentials_username == null && var.admin_credentials_password == null ? (
     null
@@ -64,7 +64,7 @@ resource "rhcs_cluster_rosa_hcp" "rosa_hcp_cluster" {
   create_admin_user        = local.create_admin_user
   admin_credentials        = local.admin_credentials
   ec2_metadata_http_tokens = var.ec2_metadata_http_tokens
-  
+
   machine_cidr = var.machine_cidr
   service_cidr = var.service_cidr
   pod_cidr     = var.pod_cidr
@@ -116,6 +116,7 @@ resource "rhcs_cluster_rosa_hcp" "rosa_hcp_cluster" {
       ) == false
       error_message = "Autoscaler parameters cannot be modified while the cluster autoscaler is disabled. Please ensure that cluster_autoscaler_enabled variable is set to true"
     }
+    ignore_changes = [ properties ]
   }
 }
 
